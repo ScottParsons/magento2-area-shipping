@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * Turiknox_AreaShipping
+
+ * @category   Turiknox
+ * @package    Turiknox_AreaShipping
+ * @copyright  Copyright (c) 2017 Turiknox
+ * @license    https://github.com/turiknox/magento2-area-shipping/blob/master/LICENSE.md
+ * @version    1.0.0
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <area_shipping>
+                <active>0</active>
+                <model>Turiknox\AreaShipping\Model\Carrier\Method\AreaShipping</model>
+                <name>Area Shipping</name>
+                <title>Area Shipping</title>
+                <price>5</price>
+                <sallowspecific>0</sallowspecific>
+                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
+            </area_shipping>
+        </carriers>
+    </default>
+</config>

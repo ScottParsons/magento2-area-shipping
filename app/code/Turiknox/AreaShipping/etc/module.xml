@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * Turiknox_AreaShipping
+
+ * @category   Turiknox
+ * @package    Turiknox_AreaShipping
+ * @copyright  Copyright (c) 2017 Turiknox
+ * @license    https://github.com/turiknox/magento2-area-shipping/blob/master/LICENSE.md
+ * @version    1.0.0
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Turiknox_AreaShipping" setup_version="1.0.0" />
+    <sequence>
+        <module name="Magento_OfflinePayments" />
+        <module name="Magento_OfflineShipping" />
+    </sequence>
+</config>
