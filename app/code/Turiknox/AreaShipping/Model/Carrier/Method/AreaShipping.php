@@ -1,5 +1,4 @@
 <?php
-namespace Turiknox\AreaShipping\Model\Carrier\Method;
 /*
  * Turiknox_AreaShipping
 
@@ -9,6 +8,8 @@ namespace Turiknox\AreaShipping\Model\Carrier\Method;
  * @license    https://github.com/turiknox/magento2-area-shipping/blob/master/LICENSE.md
  * @version    1.0.0
  */
+namespace Turiknox\AreaShipping\Model\Carrier\Method;
+
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\State;
 use Magento\Quote\Model\Quote\Address\RateRequest;
@@ -25,27 +26,27 @@ class AreaShipping extends AbstractCarrier implements CarrierInterface
     /**
      * @var string
      */
-    protected $_code = 'area_shipping';
+    protected $_code = 'area_shipping'; // @codingStandardsIgnoreLine
 
-	/**
-	 * @var bool
-	 */
-	protected $_isFixed = true;
+    /**
+     * @var bool
+     */
+	protected $_isFixed = true; // @codingStandardsIgnoreLine
 
-	/**
-	 * @var \Magento\Shipping\Model\Rate\ResultFactory
-	 */
-	protected $rateResultFactory;
+    /**
+     * @var \Magento\Shipping\Model\Rate\ResultFactory
+     */
+    protected $rateResultFactory;
 
-	/**
-	 * @var \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory
-	 */
-	protected $rateMethodFactory;
+    /**
+     * @var \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory
+     */
+    protected $rateMethodFactory;
 
-	/**
-	 * @var \Magento\Framework\App\State
-	 */
-	protected $appState;
+    /**
+     * @var \Magento\Framework\App\State
+     */
+    protected $appState;
 
     /**
      * AreaShipping constructor.
@@ -58,73 +59,72 @@ class AreaShipping extends AbstractCarrier implements CarrierInterface
      * @param State $appState
      * @param array $data
      */
-	public function __construct(
-		ScopeConfigInterface $scopeConfig,
-		ErrorFactory $rateErrorFactory,
-		LoggerInterface $logger,
-		ResultFactory $rateResultFactory,
-		MethodFactory $rateMethodFactory,
-		State $appState,
-		array $data = []
-    )
-    {
+    public function __construct(
+        ScopeConfigInterface $scopeConfig,
+        ErrorFactory $rateErrorFactory,
+        LoggerInterface $logger,
+        ResultFactory $rateResultFactory,
+        MethodFactory $rateMethodFactory,
+        State $appState,
+        array $data = []
+    ) {
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
         $this->rateResultFactory = $rateResultFactory;
         $this->rateMethodFactory = $rateMethodFactory;
         $this->appState = $appState;
     }
 
-	/**
-	 * Checks if admin area
-	 *
-	 * @return bool
-	 */
-	protected function isAvailableForArea()
-	{
+    /**
+     * Checks if admin area
+     *
+     * @return bool
+     */
+    protected function isAvailableForArea()
+    {
         $area = $this->_scopeConfig->getValue('carriers/area_shipping/area', ScopeInterface::SCOPE_WEBSITE);
         if ($this->appState->getAreaCode() === $area) {
             return true;
-		}
-		return false;
-	}
+        }
+        return false;
+    }
 
-	/**
-	 * Free Shipping rate collector
-	 *
-	 * @param RateRequest $request
-	 * @return bool|\Magento\Shipping\Model\Rate\Result
-	 */
-	public function collectRates(RateRequest $request)
-	{
+    /**
+     * Free Shipping rate collector
+     *
+     * @param RateRequest $request
+     * @return bool|\Magento\Shipping\Model\Rate\Result
+     */
+    public function collectRates(RateRequest $request)
+    {
         if (!$this->getConfigFlag('active') || !$this->isAvailableForArea()) {
             return false;
         }
 
-		/** @var \Magento\Shipping\Model\Rate\Result $result */
-		$result = $this->rateResultFactory->create();
+        /** @var \Magento\Shipping\Model\Rate\Result $result */
+        $result = $this->rateResultFactory->create();
 
-		/** @var \Magento\Quote\Model\Quote\Address\RateResult\Method $method */
-		$method = $this->rateMethodFactory->create();
+        /** @var \Magento\Quote\Model\Quote\Address\RateResult\Method $method */
+        $method = $this->rateMethodFactory->create();
 
-		$method->setCarrier($this->_code);
-		$method->setCarrierTitle($this->getConfigData('title'));
+        $method->setCarrier($this->_code);
+        $method->setCarrierTitle($this->getConfigData('title'));
 
-		$method->setMethod($this->_code);
-		$method->setMethodTitle($this->getConfigData('name'));
+        $method->setMethod($this->_code);
+        $method->setMethodTitle($this->getConfigData('name'));
 
-		$method->setPrice($this->getConfigData('price'));
-		$method->setCost($this->getConfigData('price'));
+        $method->setPrice($this->getConfigData('price'));
+        $method->setCost($this->getConfigData('price'));
 
-		$result->append($method);
+        $result->append($method);
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getAllowedMethods()
-	{
+    /**
+     * @return array
+     */
+    public function getAllowedMethods()
+    {
         return [$this->_code => $this->getConfigData('name')];
-	}
+    }
 }
